@@ -1,5 +1,7 @@
 const Order = require('../models/order.js');
 
+const {sendOrderMessage} = require('../services/producer.js');
+ 
 
 
 //create order
@@ -7,6 +9,7 @@ const Order = require('../models/order.js');
 const createOrder = async (req, res) => {
     try{
         const order = await Order.create(req.body);
+        await sendOrderMessage(order);
         res.status(201).json(order);
     }
     catch(error){
